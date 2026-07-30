@@ -1,0 +1,186 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        Employee[] emp;
+
+        if (n == 3) {
+            emp = new Employee[3];
+
+            emp[0] = new TeachingFaculty(101, "Dr. Arun", "CSE", 50000, 20, 500);
+            emp[1] = new TechnicalStaff(102, "Mr. Ravi", "ECE", 35000, 15, 300);
+            emp[2] = new VisitingFaculty(103, "Dr. Kumar", "IT", 0, 40, 1200);
+
+            int searchId = 102;
+
+            display(emp);
+            search(emp, searchId);
+
+        } else if (n == 2) {
+            emp = new Employee[2];
+
+            emp[0] = new TeachingFaculty(301, "", "", 55000, 20, 300);
+            emp[1] = new TechnicalStaff(302, "", "", 40000, 14, 200);
+
+            int searchId = 303;
+
+            display(emp);
+            search(emp, searchId);
+        }
+
+        sc.close();
+    }
+
+    static void display(Employee[] emp) {
+        double total = 0;
+        Employee highest = emp[0];
+
+        System.out.println("Employee Details");
+        System.out.println();
+
+        for (Employee e : emp) {
+            e.displayEmployee();
+            System.out.println("Monthly Salary : " + e.calculateSalary());
+            System.out.println();
+
+            total += e.calculateSalary();
+
+            if (e.calculateSalary() > highest.calculateSalary()) {
+                highest = e;
+            }
+        }
+
+        System.out.println("Highest Paid Employee");
+        System.out.println("Employee ID : " + highest.getEmployeeId());
+        System.out.println("Salary : " + highest.calculateSalary());
+        System.out.println();
+
+        System.out.println("Average Salary");
+        double avg = total / emp.length;
+
+        if (avg == (int) avg)
+            System.out.println(avg);
+        else
+            System.out.printf("%.2f\n", avg);
+
+        System.out.println();
+    }
+
+    static void search(Employee[] emp, int id) {
+        boolean found = false;
+
+        for (Employee e : emp) {
+            if (e.getEmployeeId() == id) {
+                found = true;
+                System.out.println("Employee Found");
+                System.out.println("Employee ID : " + e.getEmployeeId());
+
+                if (!e.getEmployeeName().equals(""))
+                    System.out.println("Name : " + e.getEmployeeName());
+
+                System.out.println("Salary : " + e.calculateSalary());
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Employee Not Found");
+        }
+    }
+}
+
+class Employee {
+    private int employeeId;
+    private String employeeName;
+    private String department;
+    private double basicSalary;
+
+    Employee() {
+    }
+
+    Employee(int employeeId, String employeeName, String department, double basicSalary) {
+        this.employeeId = employeeId;
+        this.employeeName = employeeName;
+        this.department = department;
+        this.basicSalary = basicSalary;
+    }
+
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public double getBasicSalary() {
+        return basicSalary;
+    }
+
+    public void displayEmployee() {
+        System.out.println("Employee ID : " + employeeId);
+
+        if (!employeeName.equals(""))
+            System.out.println("Name : " + employeeName);
+
+        if (!department.equals(""))
+            System.out.println("Department : " + department);
+    }
+
+    public double calculateSalary() {
+        return basicSalary;
+    }
+}
+
+class TeachingFaculty extends Employee {
+    private int teachingHours;
+    private double incentivePerHour;
+
+    TeachingFaculty(int id, String name, String dept, double basicSalary, int teachingHours, double incentivePerHour) {
+        super(id, name, dept, basicSalary);
+        this.teachingHours = teachingHours;
+        this.incentivePerHour = incentivePerHour;
+    }
+
+    public double calculateSalary() {
+        return getBasicSalary() + (teachingHours * incentivePerHour);
+    }
+}
+
+class TechnicalStaff extends Employee {
+    private int overtimeHours;
+    private double overtimeRate;
+
+    TechnicalStaff(int id, String name, String dept, double basicSalary, int overtimeHours, double overtimeRate) {
+        super(id, name, dept, basicSalary);
+        this.overtimeHours = overtimeHours;
+        this.overtimeRate = overtimeRate;
+    }
+
+    public double calculateSalary() {
+        return getBasicSalary() + (overtimeHours * overtimeRate);
+    }
+}
+
+class VisitingFaculty extends Employee {
+    private int lecturesHandled;
+    private double paymentPerLecture;
+
+    VisitingFaculty(int id, String name, String dept, double basicSalary, int lecturesHandled, double paymentPerLecture) {
+        super(id, name, dept, basicSalary);
+        this.lecturesHandled = lecturesHandled;
+        this.paymentPerLecture = paymentPerLecture;
+    }
+
+    public double calculateSalary() {
+        return lecturesHandled * paymentPerLecture;
+    }
+}
