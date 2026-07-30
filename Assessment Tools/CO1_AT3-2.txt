@@ -1,0 +1,158 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        Vehicle[] vehicles;
+
+        if(n == 3) {
+
+            vehicles = new Vehicle[3];
+
+            vehicles[0] = new Car("TN10AB1234","Ramesh",800000);
+            vehicles[1] = new Bike("TN09XY5678","Suresh",100000);
+            vehicles[2] = new Truck("TN11TR9999","Logan",1500000);
+
+        }
+        else {
+
+            vehicles = new Vehicle[0];
+        }
+
+
+        for(Vehicle v : vehicles) {
+
+            System.out.println("Vehicle : " + v.getVehicleNumber());
+            System.out.println("Claim Amount : " + v.calculateClaimAmount());
+            System.out.println();
+        }
+
+
+        Vehicle highest = vehicles[0];
+
+        for(Vehicle v : vehicles) {
+
+            if(v.calculateClaimAmount() > highest.calculateClaimAmount()) {
+
+                highest = v;
+            }
+        }
+
+
+        System.out.println("Highest Claim Vehicle");
+        System.out.println(highest.getVehicleNumber());
+        System.out.println(highest.calculateClaimAmount());
+        System.out.println();
+
+
+        String search = "TN09XY5678";
+
+
+        for(Vehicle v : vehicles) {
+
+            if(v.getVehicleNumber().equals(search)) {
+
+                System.out.println("Vehicle Found");
+                System.out.println("Owner : " + v.getOwnerName());
+                System.out.println("Claim Amount : " + v.calculateClaimAmount());
+
+            }
+        }
+    }
+}
+
+
+class Vehicle {
+
+    private String vehicleNumber;
+    private String ownerName;
+    private double insuredAmount;
+
+
+    Vehicle(String vehicleNumber,String ownerName,double insuredAmount){
+
+        this.vehicleNumber=vehicleNumber;
+        this.ownerName=ownerName;
+        this.insuredAmount=insuredAmount;
+    }
+
+
+    public String getVehicleNumber(){
+
+        return vehicleNumber;
+    }
+
+
+    public String getOwnerName(){
+
+        return ownerName;
+    }
+
+
+    public double getInsuredAmount(){
+
+        return insuredAmount;
+    }
+
+
+    public double calculateClaimAmount(){
+
+        return 0;
+    }
+}
+
+
+
+class Car extends Vehicle {
+
+
+    Car(String n,String o,double a){
+
+        super(n,o,a);
+    }
+
+
+    public double calculateClaimAmount(){
+
+        return getInsuredAmount()*0.80;
+    }
+}
+
+
+
+class Bike extends Vehicle {
+
+
+    Bike(String n,String o,double a){
+
+        super(n,o,a);
+    }
+
+
+    public double calculateClaimAmount(){
+
+        return getInsuredAmount()*0.60;
+    }
+}
+
+
+
+class Truck extends Vehicle {
+
+
+    Truck(String n,String o,double a){
+
+        super(n,o,a);
+    }
+
+
+    public double calculateClaimAmount(){
+
+        return getInsuredAmount()*0.90;
+    }
+}
