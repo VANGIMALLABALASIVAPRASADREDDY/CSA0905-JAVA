@@ -1,0 +1,30 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        LinkedHashMap<Integer, String> cart = new LinkedHashMap<>();
+
+        cart.put(101, "Laptop");
+        cart.put(102, "Mouse");
+        cart.put(103, "Keyboard");
+
+        System.out.println(cart);
+
+        System.out.println(cart.get(102));
+
+        cart.replace(103, "Headset");
+        System.out.println(cart);
+
+        cart.remove(101);
+        System.out.println(cart);
+
+        Iterator<Map.Entry<Integer, String>> it = cart.entrySet().iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next());
+        }
+        for (Map.Entry<Integer, String> e : cart.entrySet()) {
+            System.out.println(e.getKey() + " - " + e.getValue());
+        }
+    }
+}
